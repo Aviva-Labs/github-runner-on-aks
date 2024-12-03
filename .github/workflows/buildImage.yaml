@@ -10,7 +10,7 @@ on:
       - 'Dockerfile' 
 
 env:
-  REGISTRY: ghcr.io
+  REGISTRY: datasciencemodels.azurecr.io
   IMAGE_NAME: "${{ github.repository }}"
 
 jobs:
@@ -24,12 +24,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Log in to the Container registry
+      - name: Log into Container registry
         uses: docker/login-action@v2
+        continue-on-error: false
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
+          registry: ${{ secrets.ACR_ENDPOINT }}
+          username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.RUNNER_TOKEN }}
+
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
