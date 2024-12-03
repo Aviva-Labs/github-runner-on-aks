@@ -2,8 +2,8 @@
 # This is a basic workflow to help you get started with Actions
 name: Deploy Sample App
 env:
-  RESOURCE_GROUP: 'aksrunners-rg'
-  CLUSTER_NAME: 'aksrunners-aks'
+  RESOURCE_GROUP: 'rg-aks-ine'
+  CLUSTER_NAME: 'aks-ine-cluster-southcentral'
 # Controls when the action will run. 
 on:
   # Allows you to run this workflow manually from the Actions tab
