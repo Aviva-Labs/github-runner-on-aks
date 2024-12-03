@@ -30,7 +30,7 @@ jobs:
         with:
           registry: ${{ secrets.ACR_ENDPOINT }}
           username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.RUNNER_TOKEN }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
 
       - name: Extract metadata (tags, labels) for Docker
