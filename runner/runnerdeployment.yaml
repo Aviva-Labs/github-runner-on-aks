@@ -1,10 +1,17 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
-  name: example-runnerdeploy
+  name: github-runners-deploy
 spec:
-  replicas: 1
+  replicas: 2
   template:
     spec:
-      repository: yaronpri/GithubRunnerOnAKS
-      #organization: <YOUR ORG NAME IF WANT TO WORK AT ORG LEVEL>  
+      organization: Aviva-Labs
+      resources: {}
+      volumeMounts:
+      - mountPath: /runner/_work
+        name: work
+      volumes:
+      - name: work
+        persistentVolumeClaim:
+          claimName: github-runner-pvc
