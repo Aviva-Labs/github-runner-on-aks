@@ -1,15 +1,20 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
-  name: example-runner-deployment-autoscaler
+  name: github-runner-deployment-autoscaler
+  namespace: prod
 spec:
   scaleTargetRef:
     # Your RunnerDeployment Here
-    name: example-runnerdeploy
+    name: github-runners-deploy
     kind: RunnerDeployment
-  minReplicas: 1
-  maxReplicas: 20
+  minReplicas: 2
+  maxReplicas: 6
   metrics:
   - type: TotalNumberOfQueuedAndInProgressWorkflowRuns
     repositoryNames:
     - github-runner-on-aks
+    - datascience
+    - testing-workflows
+    - github-runner-on-aks
+    - rasa_chatbots
