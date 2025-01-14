@@ -14,7 +14,15 @@ RUN umask 0002 && echo "deb [arch=amd64] https://packages.microsoft.com/repos/az
 RUN sudo apt update -y \
   && umask 0002 \
   && sudo apt install -y azure-cli 
+  
+# Customize image for datascience repository
+RUN sudo apt-get update && sudo apt-get install -y libgl1-mesa-dev ffmpeg libsm6 libxext6 locales curl jq docker.io
+RUN sudo sed -i -e 's/# es_MX.UTF-8 UTF-8/es_MX.UTF-8 UTF-8/' /etc/locale.gen
+RUN sudo dpkg-reconfigure --frontend=noninteractive locales
+RUN echo "LANG=es_MX.UTF-8" | sudo tee -a /etc/environment
+RUN echo "LC_ALL=es_MX.UTF-8" | sudo tee -a /etc/environment
 
+# Free storage
 RUN sudo rm -rf /var/lib/apt/lists/*
 
 # Download and install kubectl 
