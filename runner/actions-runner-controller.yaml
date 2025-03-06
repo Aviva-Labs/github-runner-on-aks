@@ -1,3 +1,4 @@
+#use kubectl create -f -; https://www.pcbaecker.com/articles/kubernetes-crd-annotation-too-long-fix/
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -34262,7 +34263,7 @@ spec:
       - args:
         - --metrics-addr=127.0.0.1:8080
         - --enable-leader-election
-        - --runner-image=ghcr.io/aviva-labs/github-runner-on-aks:main
+        - --runner-image=datasciencemodels.azurecr.io/aviva-labs/github-runner-on-aks:main
         command:
         - /manager
         env:
