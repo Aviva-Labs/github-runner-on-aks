@@ -1,10 +1,26 @@
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
-  name: example-runnerdeploy
+  name: github-runners-deploy
+  namespace: production
 spec:
   replicas: 1
   template:
     spec:
-      repository: yaronpri/GithubRunnerOnAKS
-      #organization: <YOUR ORG NAME IF WANT TO WORK AT ORG LEVEL>  
+      organization: Aviva-Labs
+      image: datasciencemodels.azurecr.io/aviva-labs/github-runner-on-aks:main
+      imagePullSecrets:
+      - name: runnersecret
+      resources: {}
+      volumeMounts:
+      - mountPath: /runner/_work
+        name: work
+      - mountPath: /runner/dvc-cache
+        name: dvc-cache
+      volumes:
+      - name: work
+        persistentVolumeClaim:
+          claimName: github-runner-pvc
+      - name: dvc-cache
+        persistentVolumeClaim:
+          claimName: remote-caching-pvc

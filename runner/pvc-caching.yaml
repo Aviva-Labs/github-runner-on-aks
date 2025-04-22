@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    argocd.argoproj.io/instance: production_remote-caching-pvc
+    truefoundry.com/application: remote-caching-pvc
+    truefoundry.com/component-type: volume
+    truefoundry.com/deployment-version: "1"
+    truefoundry.com/managed-by: servicefoundry
+    truefoundry.com/tenant: avivacredito
+  name: remote-caching-pvc
+  namespace: production
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+  storageClassName: azurefile
+  volumeMode: Filesystem
+
