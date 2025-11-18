@@ -4,6 +4,13 @@ RUN sudo apt update -y \
   && umask 0002 \
   && sudo apt install -y ca-certificates curl apt-transport-https lsb-release gnupg
 
+# Install Docker from Docker's official repository (newer version with API 1.44+ support)
+RUN umask 0002 \
+  && sudo install -m 0755 -d /etc/apt/keyrings \
+  && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg \
+  && sudo chmod a+r /etc/apt/keyrings/docker.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 # Install Azure CLI using the install script (works across Ubuntu versions)
 RUN umask 0002 \
   && curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash 
@@ -21,7 +28,10 @@ RUN sudo apt-get update && sudo apt-get install -y \
     locales \
     curl \
     jq \
-    docker.io \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
     python3.11 \
     python3.11-dev \
     python3.11-venv \
