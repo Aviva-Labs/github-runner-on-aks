@@ -8,19 +8,19 @@ spec:
   template:
     spec:
       organization: Aviva-Labs
-      image: datasciencemodels.azurecr.io/aviva-labs/github-runner-on-aks:main
+      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:updated
       imagePullSecrets:
-      - name: runnersecret
-      resources: {}
+      - name: runnersecret-updated
+      resources:
+          limits:
+            cpu: "8"
+            memory: 20Gi
+          requests:
+            cpu: "1"
+            memory: 8Gi
       volumeMounts:
-      - mountPath: /runner/_work
-        name: work
       - mountPath: /runner/dvc-cache
         name: dvc-cache
       volumes:
-      - name: work
-        persistentVolumeClaim:
-          claimName: github-runner-pvc
-      - name: dvc-cache
         persistentVolumeClaim:
           claimName: remote-caching-pvc
