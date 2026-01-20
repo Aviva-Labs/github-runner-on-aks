@@ -8,7 +8,7 @@ spec:
   template:
     spec:
       organization: Aviva-Labs
-      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:updated
+      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:bru-updated
       imagePullSecrets:
       - name: runnersecret-updated
       resources:

@@ -25,6 +25,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
     ffmpeg \
     libsm6 \
     libxext6 \
+    libmagic1 \
     locales \
     curl \
     jq \
@@ -67,6 +68,14 @@ RUN umask 0002 \
         "cryptography" \
         "pyopenssl"
 
+# 3. Install Node.js (Version 20) via NodeSource
+RUN sudo curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - \
+    && sudo apt-get install -y --no-install-recommends nodejs \
+    && sudo rm -rf /var/lib/apt/lists/*
+
+# 4. Install Bruno CLI globally
+RUN sudo npm install -g @usebruno/cli@latest
+RUN bru --version
 # Configure locale
 RUN sudo sed -i -e 's/# es_MX.UTF-8 UTF-8/es_MX.UTF-8 UTF-8/' /etc/locale.gen
 RUN sudo dpkg-reconfigure --frontend=noninteractive locales
@@ -78,7 +87,18 @@ RUN sudo curl -LO https://storage.googleapis.com/kubernetes-release/release/$(cu
     && sudo chmod +x ./kubectl \
     && sudo mv ./kubectl /usr/local/bin/kubectl
 
+RUN sudo curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+RUN helm version
+RUN helm repo add stable https://charts.helm.sh/stable
+RUN helm repo add dagster https://dagster-io.github.io/helm
+RUN helm repo update
+
+
 # Final cleanup to reduce image size
-RUN sudo rm -rf /tmp/* /var/tmp/* \
+RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+    && python3.11 -m pip install --no-cache-dir bruno \ 
+    && sudo apt-get purge -y --auto-remove curl \ 
     && sudo apt-get clean \
-    && python3.11 -m pip cache purge || true
+    && sudo rm -rf /var/lib/apt/lists/* \
+    && sudo rm -rf /root/.cache/pip \
+    && sudo rm -rf /tmp/*
