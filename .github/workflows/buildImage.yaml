@@ -10,7 +10,7 @@ on:
       - 'Dockerfile' 
 
 env:
-  REGISTRY: datasciencemodels.azurecr.io
+  REGISTRY: ${{ secrets.ACR_ENDPOINT_PROD }}
   IMAGE_NAME: "${{ github.repository }}"
 
 jobs:
@@ -28,8 +28,8 @@ jobs:
         uses: docker/login-action@v2
         continue-on-error: false
         with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
+          registry: ${{ secrets.ACR_ENDPOINT_PROD }}
+          username: ${{ secrets.ACR_USERNAME_PROD }}
           password: ${{ secrets.ACR_PASSWORD }}
 
 
