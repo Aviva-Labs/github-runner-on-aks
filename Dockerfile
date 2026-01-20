@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner:latest
+FROM summerwind/actions-runner:ubuntu-24.04
 
 RUN sudo apt update -y \
   && umask 0002 \
