@@ -97,7 +97,7 @@ RUN helm repo update
 # Final cleanup to reduce image size
 RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
     && python3.11 -m pip install --no-cache-dir bruno \ 
-    && sudo apt-get purge -y --auto-remove curl \ 
+    && sudo apt-get purge -y --auto-remove \ 
     && sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/* \
     && sudo rm -rf /root/.cache/pip \
