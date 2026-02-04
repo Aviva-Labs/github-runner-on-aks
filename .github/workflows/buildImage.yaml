@@ -10,7 +10,7 @@ on:
       - 'Dockerfile' 
 
 env:
-  REGISTRY: datasciencemodels.azurecr.io
+  REGISTRY: "${{ secrets.ACR_ENDPOINT }}"
   IMAGE_NAME: "${{ github.repository }}"
 
 jobs:
