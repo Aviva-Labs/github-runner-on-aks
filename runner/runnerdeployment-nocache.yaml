@@ -1,0 +1,23 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: github-runners-nocache
+  namespace: production
+spec:
+  replicas: 6
+  template:
+    spec:
+      ephemeral: true
+      organization: Aviva-Labs
+      labels:
+        - "no-cache"
+      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:bru-updated
+      imagePullSecrets:
+      - name: runnersecret-updated
+      resources:
+          limits:
+            cpu: "250m"
+            memory: 512Mi
+          requests:
+            cpu: "250m"
+            memory: 512Mi
