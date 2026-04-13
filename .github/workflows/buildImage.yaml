@@ -10,7 +10,7 @@ on:
       - 'Dockerfile' 
 
 env:
-  REGISTRY: "${{ secrets.ACR_ENDPOINT_PROD }}"
+  REGISTRY: "${{ secrets.ACR_ENDPOINT_BASEI }}"
   IMAGE_NAME: "${{ github.repository }}"
 
 jobs:
@@ -22,15 +22,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Log into Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v4
         continue-on-error: false
         with:
-          registry: ${{ secrets.ACR_ENDPOINT_PROD }}
-          username: ${{ secrets.ACR_USERNAME_PROD }}
-          password: ${{ secrets.ACR_PASSWORD_PROD }}
+          registry: ${{ secrets.ACR_ENDPOINT_BASEI }}
+          username: ${{ secrets.ACR_PASSWORD_BASEI }}
+          password: ${{ secrets.ACR_USERNAME_BASEI }}
 
 
       - name: Extract metadata (tags, labels) for Docker
