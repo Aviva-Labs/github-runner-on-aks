@@ -10,7 +10,7 @@ on:
       - 'Dockerfile' 
 
 env:
-  REGISTRY: "${{ secrets.ACR_ENDPOINT }}"
+  REGISTRY: "${{ secrets.ACR_ENDPOINT_PROD }}"
   IMAGE_NAME: "${{ github.repository }}"
 
 jobs:
@@ -28,9 +28,9 @@ jobs:
         uses: docker/login-action@v2
         continue-on-error: false
         with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          registry: ${{ secrets.ACR_ENDPOINT_PROD }}
+          username: ${{ secrets.ACR_USERNAME_PROD }}
+          password: ${{ secrets.ACR_PASSWORD_PROD }}
 
 
       - name: Extract metadata (tags, labels) for Docker

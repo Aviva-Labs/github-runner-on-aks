@@ -16,7 +16,8 @@ RUN umask 0002 \
   && curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash 
   
 # Customize image for datascience repository
-# Install Python 3.11 from deadsnakes PPA (required for Ubuntu Noble)
+# Python: Ubuntu 24.04 ships 3.12 in main; 3.11 and 3.13 come from deadsnakes PPA
+# (https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa — see PPA matrix for Noble).
 RUN sudo apt-get update && sudo apt-get install -y \
     software-properties-common \
     && sudo add-apt-repository -y ppa:deadsnakes/ppa \
@@ -37,13 +38,22 @@ RUN sudo apt-get update && sudo apt-get install -y \
     python3.11-dev \
     python3.11-venv \
     python3.11-distutils \
+    python3.12 \
+    python3.12-dev \
+    python3.12-venv \
+    python3.13 \
+    python3.13-dev \
+    python3.13-venv \
     python3-pip \
     build-essential \
     git \
     && sudo rm -rf /var/lib/apt/lists/*
 
-# Set Python 3.11 as default python3 and ensure pip works
+# Default python3 is 3.11; 3.12 and 3.13 available as python3.12 / python3.13
 RUN sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1 \
+    && sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 2 \
+    && sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 3 \
+    && sudo update-alternatives --set python3 /usr/bin/python3.11 \
     && curl -sS https://bootstrap.pypa.io/get-pip.py | python3.11
 
 # Install Docker Compose as standalone binary (V2)
@@ -68,8 +78,8 @@ RUN umask 0002 \
         "cryptography" \
         "pyopenssl"
 
-# 3. Install Node.js (Version 20) via NodeSource
-RUN sudo curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - \
+# Node.js 22.x via NodeSource binary distributions (https://github.com/nodesource/distributions)
+RUN sudo curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash - \
     && sudo apt-get install -y --no-install-recommends nodejs \
     && sudo rm -rf /var/lib/apt/lists/*
 
@@ -95,9 +105,8 @@ RUN helm repo update
 
 
 # Final cleanup to reduce image size
-RUN sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-    && python3.11 -m pip install --no-cache-dir bruno \ 
-    && sudo apt-get purge -y --auto-remove \ 
+RUN sudo apt-get update \
+    && python3.11 -m pip install --no-cache-dir bruno \
     && sudo apt-get clean \
     && sudo rm -rf /var/lib/apt/lists/* \
     && sudo rm -rf /root/.cache/pip \
