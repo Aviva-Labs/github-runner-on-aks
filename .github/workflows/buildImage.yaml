@@ -29,8 +29,8 @@ jobs:
         continue-on-error: false
         with:
           registry: ${{ secrets.ACR_ENDPOINT_BASEI }}
-          username: ${{ secrets.ACR_PASSWORD_BASEI }}
-          password: ${{ secrets.ACR_USERNAME_BASEI }}
+          username: ${{ secrets.ACR_USERNAME_BASEI }}
+          password: ${{ secrets.ACR_PASSWORD_BASEI }} 
 
 
       - name: Extract metadata (tags, labels) for Docker
