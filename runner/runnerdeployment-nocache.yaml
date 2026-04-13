@@ -4,14 +4,14 @@ metadata:
   name: github-runners-nocache
   namespace: production
 spec:
-  replicas: 6
+  replicas: 4
   template:
     spec:
       ephemeral: true
       organization: Aviva-Labs
       labels:
         - "no-cache"
-      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:bru-updated
+      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:node-updated
       imagePullSecrets:
       - name: runnersecret-updated
       resources:

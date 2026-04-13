@@ -10,7 +10,7 @@ spec:
       organization: Aviva-Labs
       labels:
         - "cache-enabled"
-      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:bru-updated
+      image: aksdatascienceprodreg.azurecr.io/github-runner-on-aks:node-updated
       imagePullSecrets:
       - name: runnersecret-updated
       resources:
@@ -24,5 +24,6 @@ spec:
       - mountPath: /runner/dvc-cache
         name: dvc-cache
       volumes:
+      - name: dvc-cache
         persistentVolumeClaim:
           claimName: remote-caching-pvc
